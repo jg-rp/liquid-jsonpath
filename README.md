@@ -17,23 +17,12 @@ JSONPath selectors for [Python Liquid](https://jg-rp.github.io/liquid/).
 
 ## Installation
 
-Install Python Liquid Babel using [pip](https://pip.pypa.io/en/stable/getting-started/):
-
-```console
-python -m pip install -U liquid-jsonpath
-```
-
-Or [pipenv](https://pipenv.pypa.io/en/latest/):
-
-```console
-pipenv install liquid-jsonpath
-```
+TODO
 
 ## Links
 
 - Change log: https://github.com/jg-rp/liquid-jsonpath/blob/main/CHANGES.md
 - PyPi: https://pypi.org/project/liquid-jsonpath/
-- Source Code: https://github.com/jg-rp/liquid-jsonpath
 - Issue tracker: https://github.com/jg-rp/liquid-jsonpath/issues
 
 ## License
