@@ -1,7 +1,7 @@
 <h1 align="center">Liquid JSONPath</h1>
 
 <p align="center">
-JSONPath selectors for [Python Liquid](https://jg-rp.github.io/liquid/).
+JSONPath selectors for <a href="https://jg-rp.github.io/liquid/">Python Liquid</a>.
 </p>
 
 [![PyPI - Version](https://img.shields.io/pypi/v/liquid-jsonpath.svg)](https://pypi.org/project/liquid-jsonpath)
