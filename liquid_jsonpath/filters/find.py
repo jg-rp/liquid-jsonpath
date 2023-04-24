@@ -1,7 +1,6 @@
 """A Liquid filter bringing JSONPath syntax to Liquid templates."""
 from __future__ import annotations
 
-from enum import Enum
 from typing import TYPE_CHECKING
 from typing import Mapping
 from typing import Optional
@@ -11,26 +10,10 @@ from jsonpath import JSONPathEnvironment
 from jsonpath import JSONPathError
 from liquid.exceptions import FilterArgumentError
 
+from liquid_jsonpath import Default
+
 if TYPE_CHECKING:
     from liquid import Environment
-
-
-class Default(Enum):
-    """JSONPath filter and tag default actions.
-
-    Attributes:
-        EMPTY: Always return an empty list when there's an error with the
-            target object or the path.
-        UNDEFINED: Always return an instance of the current Liquid
-            environment's "undefined" type when there's an error with the
-            target object or the path.
-        RAISE: Raise a `FilterArgumentError` when there's a problem with the
-            target object or the path.
-    """
-
-    EMPTY = 1
-    UNDEFINED = 2
-    RAISE = 3
 
 
 class Find:

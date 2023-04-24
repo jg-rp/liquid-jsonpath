@@ -69,11 +69,10 @@ cov-html = ["test-cov", "- coverage combine", "coverage html"]
 python = ["3.7", "3.8", "3.9", "3.10", "3.11"]
 
 [tool.hatch.envs.lint]
-detached = true
 dependencies = ["black>=23.1.0", "mypy>=1.0.0", "ruff>=0.0.243"]
 
 [tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:liquid_jsonpath tests}"
+typing = "mypy --install-types --non-interactive {args:liquid_jsonpath}"
 style = ["ruff {args:.}", "black --check --diff {args:.}"]
 fmt = ["black {args:.}", "ruff --fix {args:.}", "style"]
 all = ["style", "typing"]
@@ -173,6 +172,7 @@ ban-relative-imports = "all"
 "liquid_jsonpath/__about__.py" = ["D100"]
 "liquid_jsonpath/__init__.py" = ["D104"]
 "liquid_jsonpath/filters/__init__.py" = ["D104"]
+"liquid_jsonpath/tags/__init__.py" = ["D104"]
 # Tests can use magic values, assertions, and relative imports
 "tests/**/*" = ["PLR2004", "S101", "TID252", "D100", "D101", "D104", "D103"]
 
