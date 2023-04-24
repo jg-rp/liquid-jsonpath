@@ -30,6 +30,7 @@
 
 - [Installation](#installation)
 - [Links](#links)
+- [Examples](#examples)
 - [License](#license)
 
 ## Installation
@@ -45,6 +46,13 @@ Or [pipenv](https://pipenv.pypa.io/en/latest/):
 ```console
 pipenv install liquid-jsonpath
 ```
+
+## Links
+
+- Docs: https://jg-rp.github.io/liquid/jsonpath/introduction
+- Change log: https://github.com/jg-rp/liquid-jsonpath/blob/main/CHANGES.md
+- PyPi: https://pypi.org/project/liquid-jsonpath/
+- Issue tracker: https://github.com/jg-rp/liquid-jsonpath/issues
 
 ## Examples
 
@@ -123,12 +131,6 @@ template = env.from_string(
 )
 print(template.render(data=data))  # Sue, John, Sally, Jane,
 ```
-
-## Links
-
-- Change log: https://github.com/jg-rp/liquid-jsonpath/blob/main/CHANGES.md
-- PyPi: https://pypi.org/project/liquid-jsonpath/
-- Issue tracker: https://github.com/jg-rp/liquid-jsonpath/issues
 
 ## License
 
