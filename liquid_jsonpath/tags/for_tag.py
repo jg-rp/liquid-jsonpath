@@ -154,13 +154,7 @@ class JSONPathForTag(ForTag):
             next(stream)
             stream.expect(TOKEN_STRING)
             path = self._compile_path(parse_string_literal(stream).value)
-            # TODO: Change Python Liquid's LoopExpression to accept any Expression
-            # as a potential iterable.
-            expression = JSONPathExpression(
-                expression,
-                path,
-                default=self.default,
-            )  # type: ignore
+            expression = JSONPathExpression(expression, path, default=self.default)
             next(stream)
 
         args, reversed_ = parse_loop_arguments(stream)
