@@ -20,7 +20,6 @@ from liquid.golden.for_tag import cases
 
 from liquid_jsonpath import Default
 from liquid_jsonpath import JSONPathForTag
-from liquid_jsonpath import LiquidJSONPathEnvironment
 
 
 @pytest.fixture()
