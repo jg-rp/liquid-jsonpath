@@ -20,6 +20,7 @@ from liquid.golden.for_tag import cases
 
 from liquid_jsonpath import Default
 from liquid_jsonpath import JSONPathForTag
+from liquid_jsonpath import LiquidJSONPathEnvironment
 
 
 @pytest.fixture()
@@ -198,3 +199,39 @@ def test_render_time_path_error(data: Mapping[str, object]) -> None:
 
     with pytest.raises(LiquidTypeError):
         asyncio.run(coro())
+
+
+def test_jsonpath_in_for_loop_filter_context(data: Mapping[str, object]) -> None:
+    env = Environment()
+    env.add_tag(JSONPathForTag)
+    template = env.from_string(
+        "{% for name in data | '$.users[?@.name in _.names].name' %}"
+        "{{ name }}, "
+        "{% endfor %}",
+        globals={"names": ["Sue", "Sally"]},
+    )
+
+    assert template.render(data=data) == "Sue, Sally, "
+
+    async def coro() -> str:
+        return await template.render_async(data=data)
+
+    assert asyncio.run(coro()) == "Sue, Sally, "
+
+
+def test_size_of_filter_context(data: Mapping[str, object]) -> None:
+    env = Environment()
+    env.add_tag(JSONPathForTag)
+    template = env.from_string(
+        "{% for name in data | '$.users[?@.score > length(_.names)].name' %}"
+        "{{ name }}, "
+        "{% endfor %}",
+        globals={"names": ["Sue", "Sally"]},
+    )
+
+    assert template.render(data=data) == "Sue, John, Sally, Jane, "
+
+    async def coro() -> str:
+        return await template.render_async(data=data)
+
+    assert asyncio.run(coro()) == "Sue, John, Sally, Jane, "

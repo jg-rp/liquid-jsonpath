@@ -5,11 +5,11 @@ from typing import TYPE_CHECKING
 from typing import Mapping
 from typing import Optional
 from typing import Sequence
+from typing import Type
 from typing import Union
 
 from jsonpath import CompoundJSONPath
 from jsonpath import JSONPath
-from jsonpath import JSONPathEnvironment
 from jsonpath.exceptions import JSONPathError
 from liquid.ast import BlockNode
 from liquid.builtin.tags.for_tag import ENDFORBLOCK
@@ -41,8 +41,10 @@ from liquid.token import TOKEN_STRING
 from liquid.token import TOKEN_TAG
 
 from liquid_jsonpath import Default
+from liquid_jsonpath.env import LiquidJSONPathEnvironment
 
 if TYPE_CHECKING:
+    from jsonpath import JSONPathEnvironment
     from liquid import Context
     from liquid import Environment
     from liquid.ast import Node
@@ -69,7 +71,7 @@ class JSONPathExpression(Expression):
             return self._default(obj, context.env)
         if isinstance(obj, (Mapping, Sequence)):
             try:
-                return self.path.findall(obj)
+                return self.path.findall(obj, filter_context=context.scope)
             except JSONPathError as err:
                 return self._default(obj, context.env, err)
         return self._default(obj, context.env)
@@ -80,7 +82,7 @@ class JSONPathExpression(Expression):
             return self._default(obj, context.env)
         if isinstance(obj, (Mapping, Sequence)):
             try:
-                return await self.path.findall_async(obj)
+                return await self.path.findall_async(obj, filter_context=context.scope)
             except JSONPathError as err:
                 return self._default(obj, context.env, err)
         return self._default(obj, context.env)
@@ -104,7 +106,7 @@ class JSONPathForTag(ForTag):
     """A _for_ tag that allows iterables to be piped through a JSONPath."""
 
     default = Default.UNDEFINED
-    jsonpath_class = JSONPathEnvironment
+    jsonpath_class: Type[JSONPathEnvironment] = LiquidJSONPathEnvironment
 
     def __init__(self, env: Environment):
         super().__init__(env)

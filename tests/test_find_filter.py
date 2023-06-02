@@ -86,7 +86,7 @@ def test_int_left_undefined_default() -> None:
 def test_invalid_path_undefined_default(data: Mapping[str, object]) -> None:
     env = Environment(undefined=StrictUndefined)
     env.add_filter("find", Find(default=Default.UNDEFINED))
-    template = env.from_string("{{ data | find: '.~' | join: ' ' }}")
+    template = env.from_string("{{ data | find: '.@' | join: ' ' }}")
 
     with pytest.raises(UndefinedError):
         template.render(data=data)
@@ -131,7 +131,7 @@ def test_int_left_raise_default() -> None:
 def test_invalid_path_raise_default(data: Mapping[str, object]) -> None:
     env = Environment()
     env.add_filter("find", Find(default=Default.RAISE))
-    template = env.from_string("{{ data | find: '.~' | join: ' ' }}")
+    template = env.from_string("{{ data | find: '.@' | join: ' ' }}")
 
     with pytest.raises(FilterArgumentError):
         template.render(data=data)
@@ -170,10 +170,25 @@ def test_int_left_empty_default() -> None:
 def test_invalid_path_empty_default(data: Mapping[str, object]) -> None:
     env = Environment()
     env.add_filter("find", Find(default=Default.EMPTY))
-    template = env.from_string("{{ data | find: '.~' | join: ' ' }}")
+    template = env.from_string("{{ data | find: '.@' | join: ' ' }}")
 
     async def coro() -> str:
         return await template.render_async(data=data)
 
     assert template.render(data=data) == ""  # noqa: PLC1901
     assert asyncio.run(coro()) == ""  # noqa: PLC1901
+
+
+def test_extra_find_filter_context(data: Mapping[str, object]) -> None:
+    env = Environment()
+    env.add_filter("find", Find())
+    template = env.from_string(
+        "{{ data | find: '$.users[?@.name in _.names].name' | join: ' ' }}",
+        globals={"names": ["Sue", "Sally"]},
+    )
+
+    async def coro() -> str:
+        return await template.render_async(data=data)
+
+    assert template.render(data=data) == "Sue Sally"
+    assert asyncio.run(coro()) == "Sue Sally"

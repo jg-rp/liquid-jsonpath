@@ -25,7 +25,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-dependencies = ["python-liquid>=1.9.2", "python-jsonpath>=0.5.0"]
+dependencies = ["python-liquid>=1.9.2", "python-jsonpath>=0.7.1"]
 
 [project.urls]
 Documentation = "https://jg-rp.github.io/liquid/jsonpath/introduction"
@@ -59,7 +59,7 @@ dependencies = [
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
 cov = "pytest --cov-report=term-missing --cov-fail-under=98 --cov-config=pyproject.toml --cov=liquid_jsonpath --cov=tests {args}"
-cov-html = ["test-cov", "- coverage combine", "coverage html"]
+cov-html = "pytest --cov-report=html --cov-config=pyproject.toml --cov=liquid_jsonpath --cov=tests {args}"
 lint = "ruff check ."
 typing = "mypy"
 

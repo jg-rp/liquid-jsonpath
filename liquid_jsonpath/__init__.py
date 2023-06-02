@@ -2,11 +2,13 @@
 #
 # SPDX-License-Identifier: MIT
 from liquid_jsonpath.default import Default
+from liquid_jsonpath.env import LiquidJSONPathEnvironment
 from liquid_jsonpath.filters import Find
 from liquid_jsonpath.tags import JSONPathForTag
 
 __all__ = (
     "Default",
+    "LiquidJSONPathEnvironment",
     "Find",
     "JSONPathForTag",
 )
