@@ -234,3 +234,19 @@ def test_size_of_filter_context(data: Mapping[str, object]) -> None:
         return await template.render_async(data=data)
 
     assert asyncio.run(coro()) == "Sue, John, Sally, Jane, "
+
+
+def test_jsonpath_for_tag() -> None:
+    env = Environment()
+    env.add_tag(JSONPathForTag)
+    template = env.from_string(
+        "{% for name in data | '$.users[?@.name in _.names].name' %}"
+        "{{ name }}, "
+        "{% endfor %}",
+        globals={"names": ["Sue", "Sally"]},
+    )
+
+    analysis = template.analyze()
+    assert analysis.variables == {"data": [("<string>", 1)], "name": [("<string>", 1)]}
+    assert analysis.global_variables == {"data": [("<string>", 1)]}
+    assert analysis.tags == {"for": [("<string>", 1)]}
