@@ -104,7 +104,8 @@ class JSONPathExpression(Expression):
 
     def children(self) -> List[Expression]:
         """Return a list of child expressions."""
-        # TODO: inspect self.path for FilterContextPath expressions
+        # XXX: We can't inspect self.path statically, because we can't get a
+        # normalized JSONPath query without some data to apply the query to.
         return [self.expression]
 
 
