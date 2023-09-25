@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import List
 from typing import Mapping
 from typing import Optional
 from typing import Sequence
@@ -100,6 +101,12 @@ class JSONPathExpression(Expression):
 
         msg = f"expected a sequence or mapping, found {obj.__class__.__name__}"
         raise LiquidTypeError(msg)
+
+    def children(self) -> List[Expression]:
+        """Return a list of child expressions."""
+        # XXX: We can't inspect self.path statically, because we can't get a
+        # normalized JSONPath query without some data to apply the query to.
+        return [self.expression]
 
 
 class JSONPathForTag(ForTag):

@@ -143,12 +143,12 @@ def test_target_string_empty_default() -> None:
         "{% for name in 'foo' | '$.users.*.name' %}{{ name }}, {% endfor %}"
     )
 
-    assert template.render() == ""  # noqa: PLC1901
+    assert template.render() == ""
 
     async def coro() -> str:
         return await template.render_async()
 
-    assert asyncio.run(coro()) == ""  # noqa: PLC1901
+    assert asyncio.run(coro()) == ""
 
 
 def test_target_string_raise_default() -> None:
@@ -234,3 +234,19 @@ def test_size_of_filter_context(data: Mapping[str, object]) -> None:
         return await template.render_async(data=data)
 
     assert asyncio.run(coro()) == "Sue, John, Sally, Jane, "
+
+
+def test_jsonpath_for_tag() -> None:
+    env = Environment()
+    env.add_tag(JSONPathForTag)
+    template = env.from_string(
+        "{% for name in data | '$.users[?@.name in _.names].name' %}"
+        "{{ name }}, "
+        "{% endfor %}",
+        globals={"names": ["Sue", "Sally"]},
+    )
+
+    analysis = template.analyze()
+    assert analysis.variables == {"data": [("<string>", 1)], "name": [("<string>", 1)]}
+    assert analysis.global_variables == {"data": [("<string>", 1)]}
+    assert analysis.tags == {"for": [("<string>", 1)]}
