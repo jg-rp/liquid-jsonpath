@@ -143,12 +143,12 @@ def test_target_string_empty_default() -> None:
         "{% for name in 'foo' | '$.users.*.name' %}{{ name }}, {% endfor %}"
     )
 
-    assert template.render() == ""  # noqa: PLC1901
+    assert template.render() == ""
 
     async def coro() -> str:
         return await template.render_async()
 
-    assert asyncio.run(coro()) == ""  # noqa: PLC1901
+    assert asyncio.run(coro()) == ""
 
 
 def test_target_string_raise_default() -> None:
